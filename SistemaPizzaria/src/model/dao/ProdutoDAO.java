@@ -71,17 +71,19 @@ public class ProdutoDAO {
     }
     
     public String[] consultarByName(Object descri) throws SQLException {
-        this.sql = "select * from produto where pro_codigo = " + "'" + descri + "'";
+        this.sql = "select pro_nome, pro_descricao, pro_preco, pro_categoria from produto where pro_descricao = " + "'" + descri + "'";
         
         ResultSet rs = this.db.query(this.sql);
         
-        String codigo = rs.getString("pro_codigo");
-        String nome = rs.getString("pro_nome");
-        String descricao = rs.getString("pro_descricao");
-        double preco = rs.getDouble("pro_preco");
-        int categoria = rs.getInt("pro_categoria");
-        String[] prod = {codigo, nome, descricao, ""+preco, ""+categoria};
-        return prod;
+        while(rs.next()){
+            String nome = rs.getString("pro_nome");
+            String descricao = rs.getString("pro_descricao");
+            double preco = rs.getDouble("pro_preco");
+            int categoria = rs.getInt("pro_categoria");
+            String[] prod = {nome, descricao, ""+preco, ""+categoria};
+            return prod;
+        }
+        return null;
     }
     
 }

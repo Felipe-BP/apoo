@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import model.Produto;
 import model.dao.ProdutoDAO;
+import src.view.TabelaItens;
 import src.view.TelaMesa;
 
 /**
@@ -23,8 +24,9 @@ public class TableMesaController{
     private List<Produto> produtos = new ArrayList();
     private ProdutoDAO pd = new ProdutoDAO();
             
-    public TableMesaController(TelaMesa t){
+    public TableMesaController(TelaMesa t, TabelaItens tI){
         this.tela = t;
+        this.control = new TableItensController(tI);
     }
     
     public void setTable(){

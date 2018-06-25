@@ -43,8 +43,14 @@ public class MesaDAO {
         this.db.execute(this.sql);
     }
     
-    public void atualizarSit(String codigo) throws SQLException {
+    public void atualizarSitO(String codigo) throws SQLException {
         this.sql = "update mesa set mesa_situacao = 1 where mesa_codigo = " + "'" + codigo + "'";
+        
+        this.db.execute(this.sql);
+    }
+    
+    public void atualizarSitDisp(String codigo) throws SQLException {
+        this.sql = "update mesa set mesa_situacao = 0 where mesa_codigo = " + "'" + codigo + "'";
         
         this.db.execute(this.sql);
     }

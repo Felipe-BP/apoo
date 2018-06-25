@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.dao.MesaDAO;
@@ -42,7 +43,6 @@ public class TelaMesa extends javax.swing.JFrame {
         jComboBox2 = new javax.swing.JComboBox<>();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
 
@@ -103,14 +103,21 @@ public class TelaMesa extends javax.swing.JFrame {
             }
         });
 
-        jButton5.setText("Alterar Item");
-        jButton5.setEnabled(false);
-
         jButton6.setText("Remover Item");
         jButton6.setEnabled(false);
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Finalizar Pedido");
         jButton1.setEnabled(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -136,9 +143,7 @@ public class TelaMesa extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(223, 223, 223)
                 .addComponent(jButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton6)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -157,7 +162,6 @@ public class TelaMesa extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4)
-                    .addComponent(jButton5)
                     .addComponent(jButton6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -172,13 +176,12 @@ public class TelaMesa extends javax.swing.JFrame {
         try{
             MesaDAO md = new MesaDAO();
             String cod = jComboBox2.getSelectedItem().toString();
-            md.atualizarSit(cod);
+            md.atualizarSitO(cod);
         } catch (SQLException e){
             System.out.print("Error: " + e.getMessage());
         }
         jButton1.setEnabled(true);
         jButton4.setEnabled(true);
-        jButton5.setEnabled(true);
         jButton6.setEnabled(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -194,6 +197,31 @@ public class TelaMesa extends javax.swing.JFrame {
         new TabelaItens(this).setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        int i = this.getjTable1().getSelectedRow();
+        this.getModel().removeRow(i);
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try{
+            MesaDAO md = new MesaDAO();
+            String cod = jComboBox2.getSelectedItem().toString();
+            md.atualizarSitDisp(cod);
+            int i = this.getModel().getRowCount();
+            double conta = 0.0;
+            String[] resultado = new String[i];
+            for(int j = 0; j<i; j++){
+                Object result = this.getjTable1().getValueAt(j, 2);
+                resultado[j] = result+"";
+                conta += Double.parseDouble(resultado[j]);
+            }
+            JOptionPane.showMessageDialog(null, "Valor da conta é: " + conta);
+            this.dispose();
+        }catch (SQLException e){
+            System.out.println("Error: " + e.getMessage());
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -202,7 +230,6 @@ public class TelaMesa extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
