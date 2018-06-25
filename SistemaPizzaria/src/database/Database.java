@@ -22,14 +22,14 @@ public class Database {
     private final String ERRO = "Erro de conexão ao banco de dados.";
     
     public Database() {
-        this.url = "jdbc:mysql://localhost:3306/pizzaria";
+        this.url = "jdbc:mysql://localhost:3306/pizzaria"+"?useUnicode=true&characterEncoding=utf-8&useSSL=false";
         this.connect();
     }
     
     private void connect() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            this.conn = DriverManager.getConnection(this.url, "root", "alves");
+            this.conn = DriverManager.getConnection(this.url, "root", "felipe");
         } catch (SQLException | ClassNotFoundException e) {
             System.err.println(ERRO + "[SQL] " + e.getMessage());
         }

@@ -24,7 +24,7 @@ public class MesaDAO {
     }
     
     public void inserir(Mesa mesa) throws SQLException {
-        this.sql = "inserir into mesa values (";
+        this.sql = "insert into mesa values (";
         this.sql += "'" + mesa.getCodigo() + "', ";
         this.sql += mesa.getLugares() + ", ";
         this.sql += mesa.getSituacao() + ", ";
@@ -39,6 +39,12 @@ public class MesaDAO {
         this.sql += "mesa_situacao = " + mesa.getSituacao() + ", ";
         this.sql += "mesa_status = " + mesa.getStatus() + ", ";
         this.sql += "where mesa_codigo = " + mesa.getCodigo() + ";";
+        
+        this.db.execute(this.sql);
+    }
+    
+    public void atualizarSit(String codigo) throws SQLException {
+        this.sql = "update mesa set mesa_situacao = 1 where mesa_codigo = " + "'" + codigo + "'";
         
         this.db.execute(this.sql);
     }
@@ -66,5 +72,19 @@ public class MesaDAO {
         }
         
         return lista;
+    }
+    
+    public List<String> consultarDisp() throws SQLException {
+        List<String> cod = new ArrayList();
+        this.sql = "select mesa_codigo from mesa where mesa_status and mesa_situacao = 0";
+        
+        ResultSet rs = this.db.query(this.sql);
+        
+        while (rs.next()) {
+            String codigo = rs.getString("mesa_codigo");
+            cod.add(codigo);
+        }
+        
+        return cod;
     }
 }

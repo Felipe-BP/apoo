@@ -53,10 +53,8 @@ public class ProdutoDAO {
         this.db.execute(this.sql);
     }
     
-    public List<Produto> consultar(String str) throws SQLException {
-        this.sql = "select * from produto where pro_codigo like '" + str + "%'";
-        this.sql += " or pro_nome like '%" + str + "%'";
-        this.sql += " and pro_status = true";
+    public List<Produto> consultar() throws SQLException {
+        this.sql = "select * from produto";
         
         ResultSet rs = this.db.query(this.sql);
         
@@ -70,6 +68,20 @@ public class ProdutoDAO {
         }
         
         return lista;
+    }
+    
+    public String[] consultarByName(Object descri) throws SQLException {
+        this.sql = "select * from produto where pro_codigo = " + "'" + descri + "'";
+        
+        ResultSet rs = this.db.query(this.sql);
+        
+        String codigo = rs.getString("pro_codigo");
+        String nome = rs.getString("pro_nome");
+        String descricao = rs.getString("pro_descricao");
+        double preco = rs.getDouble("pro_preco");
+        int categoria = rs.getInt("pro_categoria");
+        String[] prod = {codigo, nome, descricao, ""+preco, ""+categoria};
+        return prod;
     }
     
 }
